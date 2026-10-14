@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#121316">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Figma TV Remote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one file, two modes. Setup is a narrow instruction column; the remote is a full-height graphite handset. */
+:root {
+  --room: #121316;      /* page behind everything */
+  --shell: #1d1f24;     /* remote body / setup panels */
+  --key: #2a2d34;       /* resting button plastic */
+  --key-hi: #3b3f48;    /* pressed button */
+  --ink: #eceef2;
+  --muted: #8b909c;
+  --line: #30333b;
+  --led: #ffb547;       /* status LED, OK ring */
+  --ok: #3ddc84;
+  --bad: #ff6b5e;
+  --display: "Onest", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--room); color: var(--ink);
+  font: 15px/1.5 var(--display);
+  padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px);
+}
+[hidden] { display: none !important; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--led); outline-offset: 3px; }
+
+/* ---------- Setup (laptop) ---------- */
+.setup { max-width: 720px; margin: 0 auto; padding-block: 48px 64px; display: grid; gap: 32px; }
+.setup h1 { font-size: 2rem; line-height: 1.15; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+.setup .lede { color: var(--muted); margin: 8px 0 0; max-width: 60ch; }
+.step { display: grid; grid-template-columns: 36px 1fr; gap: 16px; }
+.step > .n {
+  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--line); font: 500 14px var(--mono); color: var(--led);
+}
+.step h2 { margin: 4px 0 6px; font-size: 1.1rem; font-weight: 600; }
+.step p { margin: 0 0 12px; color: var(--muted); max-width: 62ch; }
+.step > div { min-width: 0; }
+.bm {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--room);
+  background: var(--led); padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: grab;
+}
+.qr-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
+.qr { background: #fff; padding: 10px; border-radius: 12px; line-height: 0; width: 196px; max-width: 100%; }
+.qr svg { width: 100%; height: auto; }
+.pair { display: grid; gap: 8px; min-width: 0; }
+.code { font: 500 1.25rem var(--mono); letter-spacing: 0.08em; color: var(--ink); }
+.small { font-size: 13px; color: var(--muted); }
+.linkish { background: none; border: 0; padding: 0; color: var(--led); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.warn { border: 1px solid var(--bad); color: var(--ink); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+.keys { width: 100%; border-collapse: collapse; font-size: 14px; }
+.keys th, .keys td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); }
+.keys th { font-weight: 500; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+.keys td:last-child { font-family: var(--mono); }
+kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; }
+.table-wrap { overflow-x: auto; }
+
+/* ---------- Remote (phone) ---------- */
+.remote {
+  height: 100%; max-width: 420px; margin: 0 auto; padding-block: 12px 20px;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 16px;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation;
+}
+.status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.status[data-s="linked"] i { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+.status[data-s="waiting"] i { background: var(--led); }
+.status[data-s="down"] i { background: var(--bad); }
+.status b { font-weight: 500; color: var(--ink); }
+
+.dpad {
+  --pad: min(78vw, 300px, 42vh);
+  position: relative; width: var(--pad); height: var(--pad); border-radius: 50%;
+  background: var(--key); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.4);
+  overflow: hidden; flex: none;
+}
+.dpad .dir {
+  position: absolute; inset: 0; border: 0; background: transparent; cursor: pointer; padding: 0;
+  transition: background-color .08s;
+}
+.dpad .dir[data-k="UP"]    { clip-path: polygon(50% 50%, 0 0, 100% 0); }
+.dpad .dir[data-k="DOWN"]  { clip-path: polygon(50% 50%, 0 100%, 100% 100%); }
+.dpad .dir[data-k="LEFT"]  { clip-path: polygon(50% 50%, 0 0, 0 100%); }
+.dpad .dir[data-k="RIGHT"] { clip-path: polygon(50% 50%, 100% 0, 100% 100%); }
+.dpad .dir svg { position: absolute; width: 22px; height: 22px; color: var(--muted); }
+.dpad .dir[data-k="UP"] svg    { top: 9%; left: calc(50% - 11px); }
+.dpad .dir[data-k="DOWN"] svg  { bottom: 9%; left: calc(50% - 11px); transform: rotate(180deg); }
+.dpad .dir[data-k="LEFT"] svg  { left: 9%; top: calc(50% - 11px); transform: rotate(-90deg); }
+.dpad .dir[data-k="RIGHT"] svg { right: 9%; top: calc(50% - 11px); transform: rotate(90deg); }
+.dpad .ok {
+  position: absolute; width: 42%; height: 42%; left: 29%; top: 29%; border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); background: var(--shell);
+  font: 600 1.1rem var(--display); letter-spacing: 0.06em; cursor: pointer; transition: background-color .08s;
+  box-shadow: 0 4px 14px rgba(0,0,0,.45);
+}
+.pressed { background-color: var(--key-hi) !important; }
+.dpad .dir.pressed svg { color: var(--ink); }
+
+.cluster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 28px; width: 100%; max-width: 320px; }
+.btn { display: grid; justify-items: center; gap: 6px; background: none; border: 0; padding: 0; cursor: pointer; }
+.btn .cap {
+  width: 60px; height: 60px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35); transition: background-color .08s;
+}
+.btn.pill .cap { width: 76px; border-radius: 30px; }
+.btn svg { width: 24px; height: 24px; }
+.btn .lbl { font-size: 12px; color: var(--ink); line-height: 1; }
+.btn .hint { font: 10px var(--mono); color: var(--muted); line-height: 1; }
+.btn.pressed { background: none !important; }
+.btn.pressed .cap { background: var(--key-hi); }
+.foot { font: 11px var(--mono); color: var(--muted); letter-spacing: 0.06em; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ============ SETUP (laptop) ============ -->
+<main class="setup" id="setup" hidden>
+  <header>
+    <h1>Figma TV Remote</h1>
+    <p class="lede">Turn your phone into a TV remote for a Figma prototype. Each button presses a key in the prototype, so design with <b>Key/Gamepad</b> triggers and everything else in Figma keeps working: interactive components, Smart Animate, variables.</p>
+  </header>
+
+  <div class="warn" id="localWarn" hidden>
+    This page is open on <b>localhost</b>, which your phone can't reach. Open it using this computer's Wi‑Fi address instead (for example <span class="code" style="font-size:14px">http://192.168.1.20:8787</span>) so the QR code works.
+  </div>
+
+  <section class="step">
+    <span class="n">1</span>
+    <div>
+      <h2>Add the bookmarklet</h2>
+      <p>Drag this button onto your browser's bookmarks bar (Ctrl+Shift+B shows the bar). It only works in a browser, not in the Figma desktop app.</p>
+      <div class="row">
+        <a class="bm" id="bm" href="#" title="Drag me to the bookmarks bar">📺 TV Remote</a>
+        <button class="linkish" id="copySnippet" type="button">Copy as console snippet instead</button>
+        <span class="small" id="copyMsg" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="step">
+    <span class="n">2</span>
+    <div>
+      <h2>Open the remote on your phone</h2>
+      <div class="qr-row">
+        <div class="qr" id="qr" aria-label="QR code for the phone remote"></div>
+        <div class="pair">
+          <span class="small">Pairing code</span>
+          <span class="code" id="code"></span>
+          <span class="small">Use “Add to Home Screen” on the phone to open it full screen next time.</span>
+          <div class="row">
+            <button class="linkish" id="newCode" type="button">New pairing code</button>
+            <a class="linkish" id="openHere" href="#" target="_blank" rel="noopener">Open remote in this browser</a>
+          </div>
+          <span class="small" id="newMsg" role="status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="step">
+    <span class="n">3</span>
+    <div>
+      <h2>Present the prototype and click the bookmark</h2>
+      <p>Open the prototype in Chrome or Edge, click the bookmark, then click once on the prototype so it has focus. A small “Remote linked” badge appears for a moment and the phone's status light turns green. Click the bookmark again to switch it off. Reloading the page also switches it off.</p>
+      <p>In the prototype's <b>Options</b> menu, turn off <b>Enable Figma shortcuts</b>. Otherwise Figma's own shortcuts, like the arrow keys moving between screens, can fire on top of your triggers.</p>
+    </div>
+  </section>
+
+  <section class="step">
+    <span class="n">4</span>
+    <div>
+      <h2>Build your triggers with these keys</h2>
+      <p>In Figma, set each interaction's trigger to <b>Key/Gamepad</b> and press the matching key.</p>
+      <div class="table-wrap">
+        <table class="keys">
+          <thead><tr><th>Remote button</th><th>Key in Figma</th></tr></thead>
+          <tbody id="keyRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ REMOTE (phone) ============ -->
+<main class="remote" id="remote" hidden>
+  <div class="status" id="status" data-s="down" role="status"><i></i><span id="statusText">Connecting…</span></div>
+
+  <div class="dpad" id="dpad">
+    <button class="dir" data-k="UP" aria-label="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button class="dir" data-k="RIGHT" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button class="dir" data-k="DOWN" aria-label="Down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button class="dir" data-k="LEFT" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+    <button class="ok" data-k="OK" aria-label="OK">OK</button>
+  </div>
+
+  <div class="cluster">
+    <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span><span class="hint">Backspace</span></button>
+    <button class="btn" data-k="HOME"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg></span><span class="lbl">Home</span><span class="hint">H</span></button>
+    <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="lbl">Menu</span><span class="hint">M</span></button>
+    <button class="btn pill" data-k="VOLDOWN"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg></span><span class="lbl">Vol</span><span class="hint">-</span></button>
+    <button class="btn" data-k="PLAY"><span class="cap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5v13l8-6.5zM14 5h2.6v14H14zM18.4 5H21v14h-2.6z"/></svg></span><span class="lbl">Play/Pause</span><span class="hint">Space</span></button>
+    <button class="btn pill" data-k="VOLUP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12M12 6v12"/></svg></span><span class="lbl">Vol</span><span class="hint">=</span></button>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+var BROKER = 'wss://broker.hivemq.com:8884/mqtt';
+
+/* Remote button -> [key, code, keyCode] pressed in the prototype. Also the whitelist: nothing else can be pressed. */
+var KEYMAP = {
+  UP: ['ArrowUp', 'ArrowUp', 38], DOWN: ['ArrowDown', 'ArrowDown', 40],
+  LEFT: ['ArrowLeft', 'ArrowLeft', 37], RIGHT: ['ArrowRight', 'ArrowRight', 39],
+  OK: ['Enter', 'Enter', 13], BACK: ['Backspace', 'Backspace', 8],
+  HOME: ['h', 'KeyH', 72], MENU: ['m', 'KeyM', 77], PLAY: [' ', 'Space', 32],
+  VOLUP: ['=', 'Equal', 187], VOLDOWN: ['-', 'Minus', 189]
+};
+var LABELS = { UP: 'Up', DOWN: 'Down', LEFT: 'Left', RIGHT: 'Right', OK: 'OK', BACK: 'Back', HOME: 'Home', MENU: 'Menu', PLAY: 'Play/Pause', VOLUP: 'Volume up', VOLDOWN: 'Volume down' };
+var KEYNAMES = { ArrowUp: '↑ Up arrow', ArrowDown: '↓ Down arrow', ArrowLeft: '← Left arrow', ArrowRight: '→ Right arrow', Enter: 'Enter', Backspace: 'Backspace', h: 'H', m: 'M', ' ': 'Space', '=': '=', '-': '-' };
+
+/* Minimal MQTT 3.1.1 client over WebSocket (QoS 0). Self-contained so the bookmarklet can carry it. */
+function makeMqtt(o) {
+  var enc = new TextEncoder(), dec = new TextDecoder();
+  var ws = null, buf, ping, timer, retry = 0, closed = false, up = false;
+  function str(s) { var b = enc.encode(s); return [b.length >> 8, b.length & 255].concat(Array.from(b)); }
+  function pkt(t, body) {
+    var l = [], n = body.length;
+    do { var d = n % 128; n = Math.floor(n / 128); if (n) d |= 128; l.push(d); } while (n);
+    return new Uint8Array([t].concat(l, body));
+  }
+  function connect() {
+    clearTimeout(timer);
+    buf = new Uint8Array(0);
+    var sock = ws = new WebSocket(o.url, 'mqtt');
+    sock.binaryType = 'arraybuffer';
+    sock.onopen = function () {
+      var flags = 2, pay = str(o.clientId);
+      if (o.will) { flags |= 4 | 32; pay = pay.concat(str(o.will.topic), str(o.will.msg)); }
+      sock.send(pkt(0x10, str('MQTT').concat([4, flags, 0, 20], pay)));
+    };
+    sock.onmessage = function (e) {
+      var a = new Uint8Array(e.data), b = new Uint8Array(buf.length + a.length);
+      b.set(buf); b.set(a, buf.length); buf = b;
+      for (;;) {
+        var m = 1, len = 0, i = 1, d;
+        do { if (i >= buf.length) return; d = buf[i++]; len += (d & 127) * m; m *= 128; } while (d & 128);
+        if (buf.length < i + len) return;
+        var t = buf[0], p = buf.slice(i, i + len);
+        buf = buf.slice(i + len);
+        if (t >> 4 === 2) {
+          if (p[1] !== 0) { sock.close(); return; }
+          up = true; retry = 0;
+          (o.subs || []).forEach(function (s, k) { sock.send(pkt(0x82, [0, k + 1].concat(str(s), [0]))); });
+          clearInterval(ping);
+          ping = setInterval(function () { if (sock.readyState === 1) sock.send(new Uint8Array([0xC0, 0])); }, 10000);
+          o.onState && o.onState('up');
+        } else if (t >> 4 === 3) {
+          var tl = p[0] << 8 | p[1], q = (t >> 1) & 3;
+          o.onMessage && o.onMessage(dec.decode(p.slice(2, 2 + tl)), dec.decode(p.slice(2 + tl + (q ? 2 : 0))));
+        }
+      }
+    };
+    sock.onerror = function () { try { sock.close(); } catch (e) {} };
+    sock.onclose = function () {
+      if (sock !== ws) return;
+      up = false; clearInterval(ping);
+      if (closed) return;
+      o.onState && o.onState('down');
+      timer = setTimeout(connect, Math.min(8000, 500 * Math.pow(2, retry++)));
+    };
+  }
+  connect();
+  return {
+    publish: function (topic, msg, retain) {
+      if (!up) return false;
+      ws.send(pkt(retain ? 0x31 : 0x30, str(topic).concat(Array.from(enc.encode(msg)))));
+      return true;
+    },
+    isUp: function () { return up; },
+    wake: function () { if (!closed && ws && ws.readyState === 3) { retry = 0; connect(); } },
+    close: function () {
+      closed = true; up = false; clearInterval(ping); clearTimeout(timer);
+      try { ws.send(new Uint8Array([0xE0, 0])); ws.close(); } catch (e) {}
+    }
+  };
+}
+
+/* Runs inside the Figma prototype tab (bookmarklet or console). Turns remote messages into key presses. */
+function figRemote(cfg, makeMqtt) {
+  if (window.__figRemote) { window.__figRemote.stop(); return; }
+  var pill = document.createElement('div'), hideT;
+  pill.style.cssText = 'position:fixed;left:16px;bottom:16px;z-index:2147483647;font:500 12px/1 system-ui,sans-serif;' +
+    'background:rgba(18,19,22,.88);color:#eceef2;padding:8px 12px;border-radius:999px;pointer-events:none;transition:opacity .4s;opacity:0';
+  document.body.appendChild(pill);
+  function say(t, stay) {
+    pill.textContent = t; pill.style.opacity = '1'; clearTimeout(hideT);
+    if (!stay) hideT = setTimeout(function () { pill.style.opacity = '0'; }, 2500);
+  }
+  function press(k) {
+    var a = document.activeElement;
+    var target = a && a !== document.body ? a : (document.querySelector('canvas') || document.body);
+    ['keydown', 'keyup'].forEach(function (type, i) {
+      setTimeout(function () {
+        target.dispatchEvent(new KeyboardEvent(type, { key: k[0], code: k[1], keyCode: k[2], which: k[2], bubbles: true, cancelable: true, composed: true }));
+      }, i * 40);
+    });
+  }
+  var tv = cfg.topic + '/tv';
+  var m = makeMqtt({
+    url: cfg.url,
+    clientId: 'tv-' + Math.random().toString(36).slice(2, 12),
+    subs: [cfg.topic + '/keys'],
+    will: { topic: tv, msg: 'off' },
+    onState: function (s) {
+      if (s === 'up') { m.publish(tv, 'on', true); say('● Remote linked'); }
+      else say('○ Remote reconnecting…', true);
+    },
+    onMessage: function (t, msg) { var k = cfg.keys[msg]; if (k) press(k); }
+  });
+  function off() { m.publish(tv, 'off', true); }
+  window.addEventListener('pagehide', off);
+  window.__figRemote = {
+    stop: function () {
+      off(); window.removeEventListener('pagehide', off);
+      setTimeout(function () { m.close(); }, 150);
+      say('Remote off');
+      setTimeout(function () { pill.remove(); }, 3000);
+      delete window.__figRemote;
+    }
+  };
+  say('Remote connecting…', true);
+}
+
+/* ---------- shared helpers ---------- */
+function randomId() {
+  var a = new Uint8Array(8); crypto.getRandomValues(a);
+  return Array.from(a, function (b) { return (b % 36).toString(36); }).join('');
+}
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+var ID_RE = /^[a-z0-9]{8,32}$/;
+var pairId = location.hash.slice(1).toLowerCase();
+
+if (ID_RE.test(pairId)) startRemote(pairId); else startSetup();
+
+/* ---------- Setup mode ---------- */
+function startSetup() {
+  document.getElementById('setup').hidden = false;
+  var host = location.hostname;
+  document.getElementById('localWarn').hidden = !(host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || location.protocol === 'file:');
+
+  var rows = Object.keys(KEYMAP).map(function (k) {
+    return '<tr><td>' + LABELS[k] + '</td><td><kbd>' + KEYNAMES[KEYMAP[k][0]] + '</kbd></td></tr>';
+  });
+  document.getElementById('keyRows').innerHTML = rows.join('');
+
+  function render(id) {
+    var cfg = JSON.stringify({ url: BROKER, topic: 'figremote/' + id, keys: KEYMAP });
+    var code = '(' + figRemote.toString() + ')(' + cfg + ',' + makeMqtt.toString() + ')';
+    document.getElementById('bm').href = 'javascript:' + encodeURIComponent(code + ';void 0');
+    document.getElementById('copySnippet').onclick = function () {
+      var msg = document.getElementById('copyMsg');
+      navigator.clipboard.writeText(code).then(function () { msg.textContent = 'Copied. Paste it into the prototype tab’s DevTools console.'; },
+        function () { msg.textContent = 'Couldn’t copy. Use the bookmarklet instead.'; });
+    };
+    var remoteUrl = location.origin + location.pathname + '#' + id;
+    document.getElementById('openHere').href = remoteUrl;
+    document.getElementById('code').textContent = id.replace(/(.{4})/g, '$1 ').trim();
+    if (window.qrcode) {
+      var q = qrcode(0, 'M'); q.addData(remoteUrl); q.make();
+      document.getElementById('qr').innerHTML = q.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    } else {
+      document.getElementById('qr').innerHTML = '<span style="color:#000;font-size:12px;line-height:1.4">QR library didn’t load. Open ' + remoteUrl + ' on your phone.</span>';
+    }
+  }
+
+  var id = store('figremote-id');
+  if (!ID_RE.test(id || '')) { id = randomId(); store('figremote-id', id); }
+  render(id);
+
+  document.getElementById('newCode').onclick = function () {
+    id = randomId(); store('figremote-id', id); render(id);
+    document.getElementById('newMsg').textContent = 'New code made. Drag the new bookmarklet to the bar and rescan the QR code. The old ones no longer connect.';
+  };
+}
+
+/* ---------- Remote mode ---------- */
+function startRemote(id) {
+  document.getElementById('remote').hidden = false;
+  document.title = 'TV Remote';
+  document.getElementById('foot').textContent = 'PAIR ' + id.replace(/(.{4})/g, '$1 ').trim().toUpperCase();
+  var topic = 'figremote/' + id;
+  var statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
+  var relayUp = false, tvOn = false;
+
+  function paint() {
+    var s = !relayUp ? 'down' : tvOn ? 'linked' : 'waiting';
+    statusEl.dataset.s = s;
+    statusText.innerHTML = s === 'linked' ? '<b>Prototype linked</b>' :
+      s === 'waiting' ? 'Waiting for prototype. Click the bookmark in Figma.' : 'Connecting…';
+  }
+  var m = makeMqtt({
+    url: BROKER,
+    clientId: 'rc-' + Math.random().toString(36).slice(2, 12),
+    subs: [topic + '/tv'],
+    onState: function (s) { relayUp = s === 'up'; paint(); },
+    onMessage: function (t, msg) { tvOn = msg === 'on'; paint(); }
+  });
+  paint();
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) m.wake(); });
+
+  function send(k) {
+    if (m.publish(topic + '/keys', k) && navigator.vibrate) navigator.vibrate(8);
+  }
+
+  /* Press on pointerdown for speed; D-pad repeats while held, like a real remote. */
+  var repeatDelay, repeatInt, held = null;
+  function release() {
+    clearTimeout(repeatDelay); clearInterval(repeatInt);
+    if (held) held.classList.remove('pressed');
+    held = null;
+  }
+  document.querySelectorAll('[data-k]').forEach(function (el) {
+    var k = el.dataset.k, repeats = /^(UP|DOWN|LEFT|RIGHT|VOLUP|VOLDOWN)$/.test(k);
+    el.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); release();
+      held = el; el.classList.add('pressed'); send(k);
+      if (repeats) repeatDelay = setTimeout(function () { repeatInt = setInterval(function () { send(k); }, 140); }, 450);
+    });
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); send(k); } });
+  });
+  ['pointerup', 'pointercancel', 'blur'].forEach(function (t) { window.addEventListener(t, release); });
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+}
+</script>
+</body>
+</html>
