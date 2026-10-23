@@ -14,10 +14,10 @@
 /* One file, two modes: a quiet setup column for the laptop, a flat full-height remote for the phone. */
 :root {
   --bg: #0f1012;
-  --key: #1c1d21;       /* button surface */
-  --key-hi: #2c2e33;    /* pressed */
+  --key: #1e1f23;       /* button surface */
+  --key-hi: #2e3035;    /* pressed */
   --ink: #e8e9ec;
-  --muted: #7c808a;
+  --muted: #83878f;
   --line: #26282d;
   --ok: #3ddc84;
   --wait: #e8b04a;
@@ -102,16 +102,14 @@ button { font: inherit; color: inherit; }
 .dpad .dir.pressed svg { color: var(--ink); }
 
 .top { display: grid; justify-items: center; }
-.voice-row { width: min(76vw, 280px, 42vh); display: flex; justify-content: flex-end; margin-bottom: -28px; position: relative; z-index: 1; }  /* sits in the empty corner beside the round D-pad */
+.voice-row { width: min(76vw, 280px, 42vh); display: flex; justify-content: flex-end; margin-bottom: -36px; position: relative; z-index: 1; }  /* sits in the empty corner beside the round D-pad */
 .cluster { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; gap: 20px 28px; width: 100%; max-width: 300px; }
 .btn { display: grid; justify-items: center; gap: 8px; background: none; border: 0; padding: 0; cursor: pointer; }
 .btn .cap {
   width: 56px; height: 56px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
   transition: background-color .08s;
 }
-.btn.mic .cap { width: 44px; height: 44px; }
 .btn svg { width: 22px; height: 22px; }
-.btn.mic svg { width: 20px; height: 20px; }
 .btn .lbl { font-size: 11px; color: var(--muted); line-height: 1; }
 .btn.pressed { background: none !important; }
 .btn.pressed .cap { background: var(--key-hi); }
