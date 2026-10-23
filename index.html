@@ -3,91 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<meta name="theme-color" content="#121316">
+<meta name="theme-color" content="#0f1012">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Figma TV Remote</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap">
 <style>
-/* Layout: one file, two modes. Setup is a narrow instruction column; the remote is a full-height graphite handset. */
+/* One file, two modes: a quiet setup column for the laptop, a flat full-height remote for the phone. */
 :root {
-  --room: #121316;      /* page behind everything */
-  --shell: #1d1f24;     /* remote body / setup panels */
-  --key: #2a2d34;       /* resting button plastic */
-  --key-hi: #3b3f48;    /* pressed button */
-  --ink: #eceef2;
-  --muted: #8b909c;
-  --line: #30333b;
-  --led: #ffb547;       /* status LED, OK ring */
+  --bg: #0f1012;
+  --key: #1c1d21;       /* button surface */
+  --key-hi: #2c2e33;    /* pressed */
+  --ink: #e8e9ec;
+  --muted: #7c808a;
+  --line: #26282d;
   --ok: #3ddc84;
-  --bad: #ff6b5e;
-  --display: "Onest", "Segoe UI", system-ui, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --wait: #e8b04a;
+  --bad: #ef6a5e;
+  --sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
-  margin: 0; background: var(--room); color: var(--ink);
-  font: 15px/1.5 var(--display);
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.55 var(--sans);
   padding: env(safe-area-inset-top, 0px) 16px env(safe-area-inset-bottom, 0px);
 }
 [hidden] { display: none !important; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--led); outline-offset: 3px; }
+:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 
 /* ---------- Setup (laptop) ---------- */
-.setup { max-width: 720px; margin: 0 auto; padding-block: 48px 64px; display: grid; gap: 32px; }
-.setup h1 { font-size: 2rem; line-height: 1.15; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
-.setup .lede { color: var(--muted); margin: 8px 0 0; max-width: 60ch; }
-.step { display: grid; grid-template-columns: 36px 1fr; gap: 16px; }
-.step > .n {
-  width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
-  border: 1px solid var(--line); font: 500 14px var(--mono); color: var(--led);
-}
-.step h2 { margin: 4px 0 6px; font-size: 1.1rem; font-weight: 600; }
-.step p { margin: 0 0 12px; color: var(--muted); max-width: 62ch; }
-.step > div { min-width: 0; }
+.setup { max-width: 560px; margin: 0 auto; padding-block: 72px 80px; display: grid; gap: 48px; }
+.setup h1 { font-size: 1.5rem; font-weight: 500; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+.setup .lede { color: var(--muted); margin: 8px 0 0; }
+.step h2 { margin: 0 0 8px; font-size: 0.95rem; font-weight: 500; }
+.step h2 span { color: var(--muted); font: 400 13px var(--mono); margin-right: 10px; }
+.step p { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.step > *:last-child { margin-bottom: 0; }
 .bm {
-  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--room);
-  background: var(--led); padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: grab;
+  display: inline-block; text-decoration: none; color: var(--bg); background: var(--ink);
+  padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: grab;
 }
-.qr-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; }
-.qr { background: #fff; padding: 10px; border-radius: 12px; line-height: 0; width: 196px; max-width: 100%; }
+.qr-row { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+.qr { background: #fff; padding: 8px; border-radius: 8px; line-height: 0; width: 160px; max-width: 100%; }
 .qr svg { width: 100%; height: auto; }
-.pair { display: grid; gap: 8px; min-width: 0; }
-.code { font: 500 1.25rem var(--mono); letter-spacing: 0.08em; color: var(--ink); }
+.pair { display: grid; gap: 6px; min-width: 0; }
+.code { font: 400 1.1rem var(--mono); letter-spacing: 0.08em; }
 .small { font-size: 13px; color: var(--muted); }
-.linkish { background: none; border: 0; padding: 0; color: var(--led); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+.linkish { background: none; border: 0; padding: 0; color: var(--muted); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+.linkish:hover { color: var(--ink); }
 .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-.warn { border: 1px solid var(--bad); color: var(--ink); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+.warn { border: 1px solid var(--bad); border-radius: 8px; padding: 12px 14px; font-size: 14px; }
 .keys { width: 100%; border-collapse: collapse; font-size: 14px; }
-.keys th, .keys td { text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); }
-.keys th { font-weight: 500; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
-.keys td:last-child { font-family: var(--mono); }
-kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px; padding: 1px 6px; }
-.table-wrap { overflow-x: auto; }
+.keys td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.keys td:last-child { text-align: right; font-family: var(--mono); font-size: 13px; color: var(--muted); }
 
 /* ---------- Remote (phone) ---------- */
 .remote {
-  height: 100%; max-width: 420px; margin: 0 auto; padding-block: 12px 20px;
+  height: 100%; max-width: 420px; margin: 0 auto; padding-block: 16px 20px;
   display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 16px;
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: manipulation;
 }
-.status { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
-.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-.status[data-s="linked"] i { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
-.status[data-s="waiting"] i { background: var(--led); }
+.status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.status i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+.status[data-s="linked"] i { background: var(--ok); }
+.status[data-s="waiting"] i { background: var(--wait); }
 .status[data-s="down"] i { background: var(--bad); }
-.status b { font-weight: 500; color: var(--ink); }
 
 .dpad {
-  --pad: min(78vw, 300px, 42vh);
+  --pad: min(76vw, 280px, 42vh);
   position: relative; width: var(--pad); height: var(--pad); border-radius: 50%;
-  background: var(--key); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.4);
-  overflow: hidden; flex: none;
+  background: var(--key); overflow: hidden; flex: none;
 }
 .dpad .dir {
   position: absolute; inset: 0; border: 0; background: transparent; cursor: pointer; padding: 0;
@@ -97,35 +88,34 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
 .dpad .dir[data-k="DOWN"]  { clip-path: polygon(50% 50%, 0 100%, 100% 100%); }
 .dpad .dir[data-k="LEFT"]  { clip-path: polygon(50% 50%, 0 0, 0 100%); }
 .dpad .dir[data-k="RIGHT"] { clip-path: polygon(50% 50%, 100% 0, 100% 100%); }
-.dpad .dir svg { position: absolute; width: 22px; height: 22px; color: var(--muted); }
-.dpad .dir[data-k="UP"] svg    { top: 9%; left: calc(50% - 11px); }
-.dpad .dir[data-k="DOWN"] svg  { bottom: 9%; left: calc(50% - 11px); transform: rotate(180deg); }
-.dpad .dir[data-k="LEFT"] svg  { left: 9%; top: calc(50% - 11px); transform: rotate(-90deg); }
-.dpad .dir[data-k="RIGHT"] svg { right: 9%; top: calc(50% - 11px); transform: rotate(90deg); }
+.dpad .dir svg { position: absolute; width: 20px; height: 20px; color: var(--muted); }
+.dpad .dir[data-k="UP"] svg    { top: 10%; left: calc(50% - 10px); }
+.dpad .dir[data-k="DOWN"] svg  { bottom: 10%; left: calc(50% - 10px); transform: rotate(180deg); }
+.dpad .dir[data-k="LEFT"] svg  { left: 10%; top: calc(50% - 10px); transform: rotate(-90deg); }
+.dpad .dir[data-k="RIGHT"] svg { right: 10%; top: calc(50% - 10px); transform: rotate(90deg); }
 .dpad .ok {
-  position: absolute; width: 42%; height: 42%; left: 29%; top: 29%; border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); background: var(--shell);
-  font: 600 1.1rem var(--display); letter-spacing: 0.06em; cursor: pointer; transition: background-color .08s;
-  box-shadow: 0 4px 14px rgba(0,0,0,.45);
+  position: absolute; width: 40%; height: 40%; left: 30%; top: 30%; border-radius: 50%;
+  border: 0; background: var(--bg); font: 500 0.95rem var(--sans); letter-spacing: 0.08em;
+  cursor: pointer; transition: background-color .08s;
 }
 .pressed { background-color: var(--key-hi) !important; }
 .dpad .dir.pressed svg { color: var(--ink); }
 
-.top { display: grid; justify-items: center; gap: 4px; }
-.voice-row { width: min(78vw, 300px, 42vh); display: flex; justify-content: flex-end; margin-bottom: -44px; position: relative; z-index: 1; }  /* sits in the empty corner beside the round D-pad */
-.cluster { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; gap: 18px 28px; width: 100%; max-width: 320px; }
-.btn { display: grid; justify-items: center; gap: 6px; background: none; border: 0; padding: 0; cursor: pointer; }
+.top { display: grid; justify-items: center; }
+.voice-row { width: min(76vw, 280px, 42vh); display: flex; justify-content: flex-end; margin-bottom: -28px; position: relative; z-index: 1; }  /* sits in the empty corner beside the round D-pad */
+.cluster { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; gap: 20px 28px; width: 100%; max-width: 300px; }
+.btn { display: grid; justify-items: center; gap: 8px; background: none; border: 0; padding: 0; cursor: pointer; }
 .btn .cap {
-  width: 60px; height: 60px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35); transition: background-color .08s;
+  width: 56px; height: 56px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
+  transition: background-color .08s;
 }
-.btn.mic .cap { width: 48px; height: 48px; border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); }
-.btn svg { width: 24px; height: 24px; }
-.btn .lbl { font-size: 12px; color: var(--ink); line-height: 1; }
-.btn .hint { font: 10px var(--mono); color: var(--muted); line-height: 1; }
+.btn.mic .cap { width: 44px; height: 44px; }
+.btn svg { width: 22px; height: 22px; }
+.btn.mic svg { width: 20px; height: 20px; }
+.btn .lbl { font-size: 11px; color: var(--muted); line-height: 1; }
 .btn.pressed { background: none !important; }
 .btn.pressed .cap { background: var(--key-hi); }
-.foot { font: 11px var(--mono); color: var(--muted); letter-spacing: 0.06em; }
+.foot { font: 10px var(--mono); color: var(--muted); opacity: .6; letter-spacing: 0.08em; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
@@ -136,95 +126,75 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
 <main class="setup" id="setup" hidden>
   <header>
     <h1>Figma TV Remote</h1>
-    <p class="lede">Turn your phone into a TV remote for a Figma prototype. Each button presses a key in the prototype, so design with <b>Key/Gamepad</b> triggers and everything else in Figma keeps working: interactive components, Smart Animate, variables.</p>
+    <p class="lede">Your phone as a remote for a Figma prototype. Each button presses a key, so build with <b>Key/Gamepad</b> triggers.</p>
   </header>
 
   <div class="warn" id="localWarn" hidden>
-    This page is open on <b>localhost</b>, which your phone can't reach. Open it using this computer's Wi‑Fi address instead (for example <span class="code" style="font-size:14px">http://192.168.1.20:8787</span>) so the QR code works.
+    This page is on <b>localhost</b>, which your phone can't reach. Open it with this computer's Wi‑Fi address so the QR code works.
   </div>
 
   <section class="step">
-    <span class="n">1</span>
-    <div>
-      <h2>Add the bookmarklet</h2>
-      <p>Drag this button onto your browser's bookmarks bar (Ctrl+Shift+B shows the bar). It only works in a browser, not in the Figma desktop app.</p>
-      <div class="row">
-        <a class="bm" id="bm" href="#" title="Drag me to the bookmarks bar">📺 TV Remote</a>
-        <button class="linkish" id="copySnippet" type="button">Copy as console snippet instead</button>
-        <span class="small" id="copyMsg" role="status"></span>
-      </div>
+    <h2><span>01</span>Add the bookmarklet</h2>
+    <p>Drag it to your bookmarks bar. Works in a browser, not the Figma desktop app.</p>
+    <div class="row">
+      <a class="bm" id="bm" href="#" title="Drag me to the bookmarks bar">TV Remote</a>
+      <button class="linkish" id="copySnippet" type="button">Copy as console snippet</button>
+      <span class="small" id="copyMsg" role="status"></span>
     </div>
   </section>
 
   <section class="step">
-    <span class="n">2</span>
-    <div>
-      <h2>Open the remote on your phone</h2>
-      <div class="qr-row">
-        <div class="qr" id="qr" aria-label="QR code for the phone remote"></div>
-        <div class="pair">
-          <span class="small">Pairing code</span>
-          <span class="code" id="code"></span>
-          <span class="small">Use “Add to Home Screen” on the phone to open it full screen next time.</span>
-          <div class="row">
-            <button class="linkish" id="newCode" type="button">New pairing code</button>
-            <a class="linkish" id="openHere" href="#" target="_blank" rel="noopener">Open remote in this browser</a>
-          </div>
-          <span class="small" id="newMsg" role="status"></span>
+    <h2><span>02</span>Scan with your phone</h2>
+    <div class="qr-row">
+      <div class="qr" id="qr" aria-label="QR code for the phone remote"></div>
+      <div class="pair">
+        <span class="code" id="code"></span>
+        <div class="row">
+          <button class="linkish" id="newCode" type="button">New code</button>
+          <a class="linkish" id="openHere" href="#" target="_blank" rel="noopener">Open here</a>
         </div>
+        <span class="small" id="newMsg" role="status"></span>
       </div>
     </div>
   </section>
 
   <section class="step">
-    <span class="n">3</span>
-    <div>
-      <h2>Present the prototype and click the bookmark</h2>
-      <p>Open the prototype in Chrome or Edge, click the bookmark, then click once on the prototype so it has focus. A small “Remote linked” badge appears for a moment and the phone's status light turns green. Click the bookmark again to switch it off. Reloading the page also switches it off.</p>
-      <p>In the prototype's <b>Options</b> menu, turn off <b>Enable Figma shortcuts</b>. Otherwise Figma's own shortcuts, like the arrow keys moving between screens, can fire on top of your triggers.</p>
-    </div>
+    <h2><span>03</span>Present and click the bookmark</h2>
+    <p>Click the bookmark on the prototype tab, then click the prototype once. Click it again to turn the remote off.</p>
+    <p>In the prototype's <b>Options</b>, turn off <b>Enable Figma shortcuts</b> so Figma's own keys don't fire too.</p>
   </section>
 
   <section class="step">
-    <span class="n">4</span>
-    <div>
-      <h2>Build your triggers with these keys</h2>
-      <p>In Figma, set each interaction's trigger to <b>Key/Gamepad</b> and press the matching key.</p>
-      <div class="table-wrap">
-        <table class="keys">
-          <thead><tr><th>Remote button</th><th>Key in Figma</th></tr></thead>
-          <tbody id="keyRows"></tbody>
-        </table>
-      </div>
-    </div>
+    <h2><span>04</span>Keys</h2>
+    <table class="keys"><tbody id="keyRows"></tbody></table>
   </section>
 </main>
 
 <!-- ============ REMOTE (phone) ============ -->
 <main class="remote" id="remote" hidden>
-  <div class="status" id="status" data-s="down" role="status"><i></i><span id="statusText">Connecting…</span></div>
+  <div class="status" id="status" data-s="down" role="status"><i></i><span id="statusText">Connecting</span></div>
 
   <div class="top">
     <div class="voice-row">
-      <button class="btn mic" data-k="VOICE"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></span><span class="lbl">Voice</span><span class="hint">V</span></button>
+      <button class="btn mic" data-k="VOICE" aria-label="Voice assistant"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></span></button>
     </div>
 
     <div class="dpad" id="dpad">
-      <button class="dir" data-k="UP" aria-label="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-      <button class="dir" data-k="RIGHT" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-      <button class="dir" data-k="DOWN" aria-label="Down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-      <button class="dir" data-k="LEFT" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="UP" aria-label="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="RIGHT" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="DOWN" aria-label="Down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="LEFT" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
       <button class="ok" data-k="OK" aria-label="OK">OK</button>
     </div>
   </div>
 
   <div class="cluster">
-    <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span><span class="hint">Backspace</span></button>
-    <button class="btn" data-k="RESTART"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Restart</span><span class="hint">R</span></button>
-    <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><span class="lbl">Main Menu</span><span class="hint">M</span></button>
-    <button class="btn" data-k="PREV"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19L9 12l10-7z"/><path d="M5 5v14"/></svg></span><span class="lbl">Prev Proto</span><span class="hint">P</span></button>
-    <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span><span class="hint">H</span></button>
-    <button class="btn" data-k="NEXT"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/></svg></span><span class="lbl">Next Proto</span><span class="hint">N</span></button>
+    <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span></button>
+    <button class="btn" data-k="RESTART"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Restart</span></button>
+    <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><span class="lbl">Main Menu</span></button>
+    <button class="btn" data-k="PREV"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19L9 12l10-7z"/><path d="M5 5v14"/></svg></span><span class="lbl">Prev Proto</span></button>
+    <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span></button>
+    <button class="btn" data-k="NEXT"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/></svg></span><span class="lbl">Next Proto</span></button>
   </div>
 
   <div class="foot" id="foot"></div>
@@ -375,9 +345,11 @@ function startSetup() {
   var host = location.hostname;
   document.getElementById('localWarn').hidden = !(host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || location.protocol === 'file:');
 
-  var rows = Object.keys(KEYMAP).map(function (k) {
-    return '<tr><td>' + LABELS[k] + '</td><td><kbd>' + KEYNAMES[KEYMAP[k][0]] + '</kbd></td></tr>';
-  });
+  var rows = ['<tr><td>D-pad</td><td>Arrow keys</td></tr>'].concat(Object.keys(KEYMAP).filter(function (k) {
+    return !/^(UP|DOWN|LEFT|RIGHT)$/.test(k);
+  }).map(function (k) {
+    return '<tr><td>' + LABELS[k] + '</td><td>' + KEYNAMES[KEYMAP[k][0]] + '</td></tr>';
+  }));
   document.getElementById('keyRows').innerHTML = rows.join('');
 
   function render(id) {
@@ -386,7 +358,7 @@ function startSetup() {
     document.getElementById('bm').href = 'javascript:' + encodeURIComponent(code + ';void 0');
     document.getElementById('copySnippet').onclick = function () {
       var msg = document.getElementById('copyMsg');
-      navigator.clipboard.writeText(code).then(function () { msg.textContent = 'Copied. Paste it into the prototype tab’s DevTools console.'; },
+      navigator.clipboard.writeText(code).then(function () { msg.textContent = 'Copied. Paste into the prototype tab’s console.'; },
         function () { msg.textContent = 'Couldn’t copy. Use the bookmarklet instead.'; });
     };
     var remoteUrl = location.origin + location.pathname + '#' + id;
@@ -422,8 +394,8 @@ function startRemote(id) {
   function paint() {
     var s = !relayUp ? 'down' : tvOn ? 'linked' : 'waiting';
     statusEl.dataset.s = s;
-    statusText.innerHTML = s === 'linked' ? '<b>Prototype linked</b>' :
-      s === 'waiting' ? 'Waiting for prototype. Click the bookmark in Figma.' : 'Connecting…';
+    statusText.textContent = s === 'linked' ? 'Linked' :
+      s === 'waiting' ? 'Waiting for prototype' : 'Connecting';
   }
   var m = makeMqtt({
     url: BROKER,
