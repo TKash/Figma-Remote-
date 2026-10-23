@@ -111,13 +111,15 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
 .pressed { background-color: var(--key-hi) !important; }
 .dpad .dir.pressed svg { color: var(--ink); }
 
-.cluster { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 28px; width: 100%; max-width: 320px; }
+.cluster { display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; gap: 18px 12px; width: 100%; max-width: 320px; }
+.cluster.three { grid-template-columns: repeat(3, 1fr); max-width: 280px; }
+.btns { display: grid; gap: 18px; justify-items: center; width: 100%; }
 .btn { display: grid; justify-items: center; gap: 6px; background: none; border: 0; padding: 0; cursor: pointer; }
 .btn .cap {
   width: 60px; height: 60px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35); transition: background-color .08s;
 }
-.btn.pill .cap { width: 76px; border-radius: 30px; }
+.btn.mic .cap { width: 68px; height: 68px; margin-block: -4px; border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); }
 .btn svg { width: 24px; height: 24px; }
 .btn .lbl { font-size: 12px; color: var(--ink); line-height: 1; }
 .btn .hint { font: 10px var(--mono); color: var(--muted); line-height: 1; }
@@ -210,13 +212,18 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
     <button class="ok" data-k="OK" aria-label="OK">OK</button>
   </div>
 
+  <div class="btns">
   <div class="cluster">
     <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span><span class="hint">Backspace</span></button>
-    <button class="btn" data-k="HOME"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg></span><span class="lbl">Home</span><span class="hint">H</span></button>
-    <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="lbl">Menu</span><span class="hint">M</span></button>
-    <button class="btn pill" data-k="VOLDOWN"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12"/></svg></span><span class="lbl">Vol</span><span class="hint">-</span></button>
-    <button class="btn" data-k="PLAY"><span class="cap"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5v13l8-6.5zM14 5h2.6v14H14zM18.4 5H21v14h-2.6z"/></svg></span><span class="lbl">Play/Pause</span><span class="hint">Space</span></button>
-    <button class="btn pill" data-k="VOLUP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 12h12M12 6v12"/></svg></span><span class="lbl">Vol</span><span class="hint">=</span></button>
+    <button class="btn" data-k="RESTART"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Restart</span><span class="hint">R</span></button>
+    <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><span class="lbl">Main Menu</span><span class="hint">M</span></button>
+    <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span><span class="hint">H</span></button>
+  </div>
+  <div class="cluster three">
+    <button class="btn" data-k="PREV"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19L9 12l10-7z"/><path d="M5 5v14"/></svg></span><span class="lbl">Prev Proto</span><span class="hint">P</span></button>
+    <button class="btn mic" data-k="VOICE"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></span><span class="lbl">Voice</span><span class="hint">V</span></button>
+    <button class="btn" data-k="NEXT"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/></svg></span><span class="lbl">Next Proto</span><span class="hint">N</span></button>
+  </div>
   </div>
 
   <div class="foot" id="foot"></div>
@@ -231,11 +238,11 @@ var KEYMAP = {
   UP: ['ArrowUp', 'ArrowUp', 38], DOWN: ['ArrowDown', 'ArrowDown', 40],
   LEFT: ['ArrowLeft', 'ArrowLeft', 37], RIGHT: ['ArrowRight', 'ArrowRight', 39],
   OK: ['Enter', 'Enter', 13], BACK: ['Backspace', 'Backspace', 8],
-  HOME: ['h', 'KeyH', 72], MENU: ['m', 'KeyM', 77], PLAY: [' ', 'Space', 32],
-  VOLUP: ['=', 'Equal', 187], VOLDOWN: ['-', 'Minus', 189]
+  RESTART: ['r', 'KeyR', 82], MENU: ['m', 'KeyM', 77], HELP: ['h', 'KeyH', 72],
+  VOICE: ['v', 'KeyV', 86], NEXT: ['n', 'KeyN', 78], PREV: ['p', 'KeyP', 80]
 };
-var LABELS = { UP: 'Up', DOWN: 'Down', LEFT: 'Left', RIGHT: 'Right', OK: 'OK', BACK: 'Back', HOME: 'Home', MENU: 'Menu', PLAY: 'Play/Pause', VOLUP: 'Volume up', VOLDOWN: 'Volume down' };
-var KEYNAMES = { ArrowUp: '↑ Up arrow', ArrowDown: '↓ Down arrow', ArrowLeft: '← Left arrow', ArrowRight: '→ Right arrow', Enter: 'Enter', Backspace: 'Backspace', h: 'H', m: 'M', ' ': 'Space', '=': '=', '-': '-' };
+var LABELS = { UP: 'Up', DOWN: 'Down', LEFT: 'Left', RIGHT: 'Right', OK: 'OK', BACK: 'Back', RESTART: 'Restart', MENU: 'Main Menu', HELP: 'Help', VOICE: 'Voice Assistant', NEXT: 'Next Prototype', PREV: 'Previous Prototype' };
+var KEYNAMES = { ArrowUp: '↑ Up arrow', ArrowDown: '↓ Down arrow', ArrowLeft: '← Left arrow', ArrowRight: '→ Right arrow', Enter: 'Enter', Backspace: 'Backspace', r: 'R', m: 'M', h: 'H', v: 'V', n: 'N', p: 'P' };
 
 /* Minimal MQTT 3.1.1 client over WebSocket (QoS 0). Self-contained so the bookmarklet can carry it. */
 function makeMqtt(o) {
@@ -439,7 +446,7 @@ function startRemote(id) {
     held = null;
   }
   document.querySelectorAll('[data-k]').forEach(function (el) {
-    var k = el.dataset.k, repeats = /^(UP|DOWN|LEFT|RIGHT|VOLUP|VOLDOWN)$/.test(k);
+    var k = el.dataset.k, repeats = /^(UP|DOWN|LEFT|RIGHT)$/.test(k);
     el.addEventListener('pointerdown', function (e) {
       e.preventDefault(); release();
       held = el; el.classList.add('pressed'); send(k);

@@ -21,13 +21,15 @@ The bookmarklet works in a browser, not in the Figma desktop app. If your browse
 | Up / Down / Left / Right | Arrow keys |
 | OK | Enter |
 | Back | Backspace |
-| Home | H |
-| Menu | M |
-| Play/Pause | Space |
-| Volume up / down | `=` / `-` |
+| Restart | R |
+| Main Menu | M |
+| Help | H |
+| Voice Assistant | V |
+| Next Prototype | N |
+| Previous Prototype | P |
 
 ## How it works
 
-The phone and the prototype tab both connect to a free public MQTT relay (HiveMQ) over secure WebSockets, using a random pairing code as the channel name. Each code is stored in the browser that made it. The prototype side only accepts the 11 keys above, so nothing else can be typed into your prototype. Taps take roughly 100–200 ms to arrive.
+The phone and the prototype tab both connect to a free public MQTT relay (HiveMQ) over secure WebSockets, using a random pairing code as the channel name. Each code is stored in the browser that made it. The prototype side only accepts the 13 keys above, so nothing else can be typed into your prototype. Taps take roughly 100–200 ms to arrive.
 
 Everything is in `index.html`. There's no build step and no server.
