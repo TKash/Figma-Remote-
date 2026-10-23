@@ -188,7 +188,7 @@ button { font: inherit; color: inherit; }
 
   <div class="cluster">
     <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span></button>
-    <button class="btn" data-k="RESTART"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Restart</span></button>
+    <button class="btn" data-k="HOME"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9v11h14V9"/></svg></span><span class="lbl">Home</span></button>
     <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><span class="lbl">Main Menu</span></button>
     <button class="btn" data-k="PREV"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19L9 12l10-7z"/><path d="M5 5v14"/></svg></span><span class="lbl">Prev Proto</span></button>
     <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span></button>
@@ -207,10 +207,10 @@ var KEYMAP = {
   UP: ['ArrowUp', 'ArrowUp', 38], DOWN: ['ArrowDown', 'ArrowDown', 40],
   LEFT: ['ArrowLeft', 'ArrowLeft', 37], RIGHT: ['ArrowRight', 'ArrowRight', 39],
   OK: ['Enter', 'Enter', 13], BACK: ['Backspace', 'Backspace', 8],
-  RESTART: ['r', 'KeyR', 82], MENU: ['m', 'KeyM', 77], HELP: ['h', 'KeyH', 72],
+  HOME: ['r', 'KeyR', 82], MENU: ['m', 'KeyM', 77], HELP: ['h', 'KeyH', 72],
   VOICE: ['v', 'KeyV', 86], NEXT: ['n', 'KeyN', 78], PREV: ['p', 'KeyP', 80]
 };
-var LABELS = { UP: 'Up', DOWN: 'Down', LEFT: 'Left', RIGHT: 'Right', OK: 'OK', BACK: 'Back', RESTART: 'Restart', MENU: 'Main Menu', HELP: 'Help', VOICE: 'Voice Assistant', NEXT: 'Next Prototype', PREV: 'Previous Prototype' };
+var LABELS = { UP: 'Up', DOWN: 'Down', LEFT: 'Left', RIGHT: 'Right', OK: 'OK', BACK: 'Back', HOME: 'Home', MENU: 'Main Menu', HELP: 'Help', VOICE: 'Voice Assistant', NEXT: 'Next Prototype', PREV: 'Previous Prototype' };
 var KEYNAMES = { ArrowUp: '↑ Up arrow', ArrowDown: '↓ Down arrow', ArrowLeft: '← Left arrow', ArrowRight: '→ Right arrow', Enter: 'Enter', Backspace: 'Backspace', r: 'R', m: 'M', h: 'H', v: 'V', n: 'N', p: 'P' };
 
 /* Minimal MQTT 3.1.1 client over WebSocket (QoS 0). Self-contained so the bookmarklet can carry it. */

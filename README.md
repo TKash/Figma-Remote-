@@ -21,7 +21,7 @@ The bookmarklet works in a browser, not in the Figma desktop app. If your browse
 | Up / Down / Left / Right | Arrow keys |
 | OK | Enter |
 | Back | Backspace |
-| Restart | R |
+| Home | R |
 | Main Menu | M |
 | Help | H |
 | Voice Assistant | V |
