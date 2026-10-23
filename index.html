@@ -111,15 +111,15 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
 .pressed { background-color: var(--key-hi) !important; }
 .dpad .dir.pressed svg { color: var(--ink); }
 
-.cluster { display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; gap: 18px 12px; width: 100%; max-width: 320px; }
-.cluster.three { grid-template-columns: repeat(3, 1fr); max-width: 280px; }
-.btns { display: grid; gap: 18px; justify-items: center; width: 100%; }
+.top { display: grid; justify-items: center; gap: 4px; }
+.voice-row { width: min(78vw, 300px, 42vh); display: flex; justify-content: flex-end; margin-bottom: -44px; position: relative; z-index: 1; }  /* sits in the empty corner beside the round D-pad */
+.cluster { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; gap: 18px 28px; width: 100%; max-width: 320px; }
 .btn { display: grid; justify-items: center; gap: 6px; background: none; border: 0; padding: 0; cursor: pointer; }
 .btn .cap {
   width: 60px; height: 60px; border-radius: 50%; background: var(--key); display: grid; place-items: center;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 6px 16px rgba(0,0,0,.35); transition: background-color .08s;
 }
-.btn.mic .cap { width: 68px; height: 68px; margin-block: -4px; border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); }
+.btn.mic .cap { width: 48px; height: 48px; border: 2px solid color-mix(in srgb, var(--led) 55%, transparent); }
 .btn svg { width: 24px; height: 24px; }
 .btn .lbl { font-size: 12px; color: var(--ink); line-height: 1; }
 .btn .hint { font: 10px var(--mono); color: var(--muted); line-height: 1; }
@@ -204,26 +204,27 @@ kbd { font: 12px var(--mono); border: 1px solid var(--line); border-bottom-width
 <main class="remote" id="remote" hidden>
   <div class="status" id="status" data-s="down" role="status"><i></i><span id="statusText">Connecting…</span></div>
 
-  <div class="dpad" id="dpad">
-    <button class="dir" data-k="UP" aria-label="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-    <button class="dir" data-k="RIGHT" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-    <button class="dir" data-k="DOWN" aria-label="Down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-    <button class="dir" data-k="LEFT" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
-    <button class="ok" data-k="OK" aria-label="OK">OK</button>
+  <div class="top">
+    <div class="voice-row">
+      <button class="btn mic" data-k="VOICE"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></span><span class="lbl">Voice</span><span class="hint">V</span></button>
+    </div>
+
+    <div class="dpad" id="dpad">
+      <button class="dir" data-k="UP" aria-label="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="RIGHT" aria-label="Right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="DOWN" aria-label="Down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="dir" data-k="LEFT" aria-label="Left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></button>
+      <button class="ok" data-k="OK" aria-label="OK">OK</button>
+    </div>
   </div>
 
-  <div class="btns">
   <div class="cluster">
     <button class="btn" data-k="BACK"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 010 11H11"/></svg></span><span class="lbl">Back</span><span class="hint">Backspace</span></button>
     <button class="btn" data-k="RESTART"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg></span><span class="lbl">Restart</span><span class="hint">R</span></button>
     <button class="btn" data-k="MENU"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/></svg></span><span class="lbl">Main Menu</span><span class="hint">M</span></button>
-    <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span><span class="hint">H</span></button>
-  </div>
-  <div class="cluster three">
     <button class="btn" data-k="PREV"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19L9 12l10-7z"/><path d="M5 5v14"/></svg></span><span class="lbl">Prev Proto</span><span class="hint">P</span></button>
-    <button class="btn mic" data-k="VOICE"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0"/><path d="M12 18v3"/></svg></span><span class="lbl">Voice</span><span class="hint">V</span></button>
+    <button class="btn" data-k="HELP"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 015 .9c0 1.7-2.5 2.4-2.5 4"/><path d="M12 17.2h.01"/></svg></span><span class="lbl">Help</span><span class="hint">H</span></button>
     <button class="btn" data-k="NEXT"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l10 7-10 7z"/><path d="M19 5v14"/></svg></span><span class="lbl">Next Proto</span><span class="hint">N</span></button>
-  </div>
   </div>
 
   <div class="foot" id="foot"></div>
